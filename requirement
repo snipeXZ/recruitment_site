@@ -1,0 +1,23 @@
+Applicants
+- login
+- logout
+- signup
+1. View Job/internship postings
+2. View jobs applied for
+3. View date for interview
+4. View account status (enabled/disabled)
+5. View posting status (rejected/accepted)
+6. Delete/cancel job applied for
+7. Upload resume
+
+
+Companies
+- login
+- logout
+- signup
+1. Post jobs/internship.
+2. View applicants that have applied for the job.
+3. View applicant resume.
+4. Reject/accept applicant and set-time for interview.
+5. Update job/internship postings.
+6. Send email to applicant.

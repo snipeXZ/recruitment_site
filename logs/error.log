@@ -1,0 +1,1 @@
+[Sat Apr 30 13:07:58.094324 2022] [core:error] [pid 30261] [client 127.0.0.1:43008] AH00037: Symbolic link not allowed or link target not accessible: /var/www/recruitment.com
