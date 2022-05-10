@@ -36,7 +36,7 @@ class Companies
     //---> Login function
     public function login()
     {
-        $query = 'SELECT id, email, password FROM ' . $this->table . ' WHERE email = :email';
+        $query = 'SELECT company_id, email, password FROM ' . $this->table . ' WHERE email = :email';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -51,7 +51,7 @@ class Companies
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //Set properties
-            $this->id    = $row['id'];
+            $this->company_id    = $row['company_id'];
             $this->email       = $row['email'];
             $this->hashed_password = $row['password'];
 

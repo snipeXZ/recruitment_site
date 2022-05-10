@@ -7,7 +7,7 @@ class Applicant
     private $table = 'applicants';
 
     //Applicants props
-    public $id;
+    public $applicant_id;
     public $status;
     public $email;
     public $password;
@@ -40,13 +40,13 @@ class Applicant
     //------------->Disable account <----------------------
     public function disable()
     {
-        $query = 'SELECT status FROM '. $this->table . ' WHERE id = :id';
+        $query = 'SELECT status FROM '. $this->table . ' WHERE applicant_id = :applicant_id';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
 
         //bind the data
-        $stmt->BindParam(':id', $this->id);
+        $stmt->BindParam(':applicant_id', $this->applicant_id);
 
         if($stmt->execute())  {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -63,13 +63,13 @@ class Applicant
         //Update field if enabled
         $query = 'UPDATE '. $this->table. '
             SET status = :status
-            WHERE id = :id';
+            WHERE applicant_id = :applicant_id';
         
         //prepare statement
         $stmt = $this->conn->prepare($query);
 
         //bind the data
-        $stmt->BindParam(':id', $this->id);
+        $stmt->BindParam(':applicant_id', $this->applicant_id);
         $stmt->BindParam(':status', $this->status);
 
         if($stmt->execute()) {
@@ -83,13 +83,13 @@ class Applicant
     //-----------------> ENABLE ACCOUNT <-------------------
     public function enable()
     {
-        $query = 'SELECT status FROM '. $this->table . ' WHERE id = :id';
+        $query = 'SELECT status FROM '. $this->table . ' WHERE applicant_id = :applicant_id';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
 
         //bind the data
-        $stmt->BindParam(':id', $this->id);
+        $stmt->BindParam(':applicant_id', $this->applicant_id);
 
         if($stmt->execute())  {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -106,13 +106,13 @@ class Applicant
         //Update field if disabled
         $query = 'UPDATE '. $this->table. '
             SET status = :status
-            WHERE id = :id';
+            WHERE applicant_id = :applicant_id';
         
         //prepare statement
         $stmt = $this->conn->prepare($query);
 
         //bind the data
-        $stmt->BindParam(':id', $this->id);
+        $stmt->BindParam(':applicant_id', $this->applicant_id);
         $stmt->BindParam(':status', $this->status);
 
         if($stmt->execute()) {
@@ -126,7 +126,7 @@ class Applicant
     //----------------> Login function <-----------------------
     public function login()
     {
-        $query = 'SELECT id, email, password FROM ' . $this->table . ' WHERE email = :email';
+        $query = 'SELECT applicant_id, email, password FROM ' . $this->table . ' WHERE email = :email';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -141,11 +141,11 @@ class Applicant
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //Set properties
-            $this->id    = $row['id'];
+            $this->applicant_id    = $row['applicant_id'];
             $this->email       = $row['email'];
             $this->hashed_password = $row['password'];
 
-            //validate password
+            //valapplicant_idate password
             if (password_verify($this->password, $this->hashed_password)) {
                 return true;
             } else {
