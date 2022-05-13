@@ -1,4 +1,7 @@
 <?php
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
 
 //Headers
 header('Access-Control-Allow-Origin: *');
@@ -50,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(array('message' => "$password_err"));
         die();
     }//Check password length
-    elseif (strlen(trim($data->passowrd)) < 6) {
+    elseif (strlen(trim($data->password)) < 6) {
         $password_err = "Password must have at least 6 charachers";
         echo json_encode(array('message' => "$password_err"));
         die();
@@ -71,9 +74,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redirect user to welcome page
             // header('location: homepage');
-
-            echo json_encode(array('message' => 'LoggedIn'));
+            http_response_code(200);
         }else {
+            http_response_code(401);
             echo json_encode(array('message' => "Invalid username or password"));
         }
     }

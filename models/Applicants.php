@@ -7,11 +7,10 @@ class Applicant
     private $table = 'applicants';
 
     //Applicants props
-    public $applicant_id;
-    public $status;
+    public $id;
+    public $account_status;
     public $email;
     public $password;
-    public $account_status;
     public $resume;
     public $first_name;
     public $last_name;
@@ -37,96 +36,53 @@ class Applicant
     }
     //----------------> End <------------------
 
-    //------------->Disable account <----------------------
-    public function disable()
-    {
-        $query = 'SELECT status FROM '. $this->table . ' WHERE applicant_id = :applicant_id';
+    public function toggleStatus(){
+        $query = 'SELECT account_status FROM '. $this->table . ' WHERE id = :id';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
 
         //bind the data
-        $stmt->BindParam(':applicant_id', $this->applicant_id);
+        $stmt->BindParam(':id', $this->id);
 
         if($stmt->execute())  {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+            var_dump($row);
             //Set properties
-            $this->status = $row['status'];
+            $this->account_status = $row['account_status'];
 
-            //Check if account already disabled
-            if($this->status === "disabled"){
+            if($this->account_status == "enabled"){
+                $this->account_status = "disabled";
+            }else {
+                $this->account_status = "enabled";
+            }
+
+            //Update field if enabled
+            $query = 'UPDATE '. $this->table. '
+                SET account_status = :account_status
+                WHERE id = :id';
+            
+            //prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            //bind the data
+            $stmt->BindParam(':id', $this->id);
+            $stmt->BindParam(':account_status', $this->account_status);
+
+            if($stmt->execute()) {
+                return true;
+            } else {
                 return false;
             }
-        }//----------> END <------------------------
-
-        //Update field if enabled
-        $query = 'UPDATE '. $this->table. '
-            SET status = :status
-            WHERE applicant_id = :applicant_id';
-        
-        //prepare statement
-        $stmt = $this->conn->prepare($query);
-
-        //bind the data
-        $stmt->BindParam(':applicant_id', $this->applicant_id);
-        $stmt->BindParam(':status', $this->status);
-
-        if($stmt->execute()) {
-            return true;
-        } else {
+        }else {
             return false;
         }
     }
-    //------------------> END <-------------------
-
-    //-----------------> ENABLE ACCOUNT <-------------------
-    public function enable()
-    {
-        $query = 'SELECT status FROM '. $this->table . ' WHERE applicant_id = :applicant_id';
-
-        //prepare statement
-        $stmt = $this->conn->prepare($query);
-
-        //bind the data
-        $stmt->BindParam(':applicant_id', $this->applicant_id);
-
-        if($stmt->execute())  {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            //Set properties
-            $this->status = $row['status'];
-
-            //Check if account already disabled
-            if($this->status === "enabled"){
-                return false;
-            }
-        }
-
-        //Update field if disabled
-        $query = 'UPDATE '. $this->table. '
-            SET status = :status
-            WHERE applicant_id = :applicant_id';
-        
-        //prepare statement
-        $stmt = $this->conn->prepare($query);
-
-        //bind the data
-        $stmt->BindParam(':applicant_id', $this->applicant_id);
-        $stmt->BindParam(':status', $this->status);
-
-        if($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    //-------------------> END <------------------------
 
     //----------------> Login function <-----------------------
     public function login()
     {
-        $query = 'SELECT applicant_id, email, password FROM ' . $this->table . ' WHERE email = :email';
+        $query = 'SELECT id, email, password FROM ' . $this->table . ' WHERE email = :email';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -141,11 +97,11 @@ class Applicant
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //Set properties
-            $this->applicant_id    = $row['applicant_id'];
+            $this->id    = $row['id'];
             $this->email       = $row['email'];
             $this->hashed_password = $row['password'];
 
-            //valapplicant_idate password
+            //validate password
             if (password_verify($this->password, $this->hashed_password)) {
                 return true;
             } else {
@@ -193,9 +149,9 @@ class Applicant
             SET 
                 email = :email, 
                 password = :password, 
-                resume = :resume, 
-                first_name = :firstname, 
-                last_name = :last_name';
+                first_name = :first_name, 
+                last_name = :last_name,
+                account_status = "enabled"';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -203,14 +159,14 @@ class Applicant
         //clean the userinputs
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->resume = htmlspecialchars(strip_tags($this->resume));
+        // $this->resume = htmlspecialchars(strip_tags($this->resume));
         $this->first_name = htmlspecialchars(strip_tags($this->first_name));
         $this->last_name = htmlspecialchars(strip_tags($this->last_name));
 
         //Bind data
         $stmt->BindParam(':email', $this->email);
         $stmt->BindParam(':password', $this->password);
-        $stmt->BindParam(':resume', $this->resume);
+        // $stmt->BindParam(':resume', $this->resume);
         $stmt->BindParam(':first_name', $this->first_name);
         $stmt->BindParam(':last_name', $this->last_name);
 

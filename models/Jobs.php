@@ -106,9 +106,8 @@ class Job_post
         }
     }
 
-    //Close job
-    public function close_job()
-    {
+    //Toggle Job
+    public function toggle_job(){
         $query = '
             SELECT status FROM 
             '. $this->table . ' 
@@ -127,58 +126,14 @@ class Job_post
             $this->status = $row['status'];
 
             //Check if job already closed
-            if($this->status === "closed"){
-                return false;
+            if($this->status == "closed"){
+                $this->status = "opened";
+            } else {
+                $this->status = "closed";
             }
         }//----------> END <------------------------
 
         //Update field if open
-        $query = 'UPDATE '. $this->table. '
-            SET status = :status
-            WHERE id = :id';
-        
-        //prepare statement
-        $stmt = $this->conn->prepare($query);
-
-        //bind the data
-        $stmt->BindParam(':job_id', $this->job_id);
-        $stmt->BindParam(':status', $this->status);
-
-        if($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    //------------------> END <-------------------
-    
-    //Close job
-    public function open_job()
-    {
-        $query = '
-            SELECT status FROM 
-            '. $this->table . ' 
-            WHERE job_id = :job_id';
-
-        //prepare statement
-        $stmt = $this->conn->prepare($query);
-
-        //bind the data
-        $stmt->BindParam(':job_id', $this->job_id);
-
-        if($stmt->execute())  {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            //Set properties
-            $this->status = $row['status'];
-
-            //Check if job already open
-            if($this->status === "open"){
-                return false;
-            }
-        }//----------> END <------------------------
-
-        //Update field if closed
         $query = 'UPDATE '. $this->table. '
             SET status = :status
             WHERE id = :id';
