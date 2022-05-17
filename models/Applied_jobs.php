@@ -109,4 +109,29 @@ class Applied_jobs
             return false;
         }
     }
+
+    //Apply for job
+    public function apply_job(){
+        $query = 'INSERT INTO ' . $this->table . '
+        SET 
+            company_id = :company_id,
+            applicant_id = :applicant_id';
+        
+            //prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            //clean data
+            $this->company_id = htmlspecialchars(strip_tags($this->company_id));
+            $this->applicant_id = htmlspecialchars(strip_tags($this->applicant_id));
+
+            //Bind data
+            $stmt->BindParam(':company_id', $this->company_id);
+            $stmt->BindParam(':applicant_id', $this->applicant_id);
+
+            if ($stmt->execute()){
+                return true;
+            } else {
+                return false;
+            }
+    }
 }

@@ -79,7 +79,7 @@ class Jobs
     {
         $query = '
             SELECT 
-                job_id, 
+                id, 
                 company_id, 
                 job_name, 
                 discription, 
