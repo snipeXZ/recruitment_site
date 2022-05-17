@@ -1,10 +1,10 @@
 <?php
 
-class Job_post
+class Jobs
 {
     //DB Stuff
     private $conn;
-    private $table = 'jobs';
+    private $table = 'job_postings';
 
     //Props
     public $post_id;
@@ -28,9 +28,8 @@ class Job_post
                 company_id = :company_id,
                 job_name = :job_name,
                 discription = :discription,
-                requirements = :requirements
-                status = :status
-        ';
+                requirements = :requirements,
+                status = "opened"';
 
         //prepare statment
         $stmt = $this->conn->prepare($query);
@@ -40,14 +39,12 @@ class Job_post
         $this->job_name = htmlspecialchars(strip_tags($this->job_name));
         $this->discription = htmlspecialchars(strip_tags($this->discription));
         $this->requirements = htmlspecialchars(strip_tags($this->requirements));
-        $this->status = htmlspecialchars(strip_tags($this->status));
 
         //Bind data
         $stmt->BindParam(':company_id', $this->company_id);
         $stmt->BindParam(':job_name', $this->job_name);
         $stmt->BindParam(':requirements', $this->requirements);
         $stmt->BindParam(':discription', $this->discription);
-        $stmt->BindParam(':status', $this->status);
 
         //Execute query
         if($stmt->execute()) {

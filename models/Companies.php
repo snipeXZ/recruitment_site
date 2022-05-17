@@ -7,11 +7,12 @@ class Companies
     private $table = 'companies';
 
     //Applicants props
-    public $company_id;
+    public $id;
     public $name;
     public $email;
     public $account_status;
-    public $passwod;
+    public $password;
+    public $exist;
 
     //Connect to DB
     public function __construct($db)
@@ -33,10 +34,53 @@ class Companies
         return true;
     }
 
+    public function toggleStatus(){
+        $query = 'SELECT account_status FROM '. $this->table . ' WHERE id = :id';
+
+        //prepare statement
+        $stmt = $this->conn->prepare($query);
+
+        //bind the data
+        $stmt->BindParam(':id', $this->id);
+
+        if($stmt->execute())  {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            var_dump($row);
+            //Set properties
+            $this->account_status = $row['account_status'];
+
+            if($this->account_status == "enabled"){
+                $this->account_status = "disabled";
+            }else {
+                $this->account_status = "enabled";
+            }
+
+            //Update field if enabled
+            $query = 'UPDATE '. $this->table. '
+                SET account_status = :account_status
+                WHERE id = :id';
+            
+            //prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            //bind the data
+            $stmt->BindParam(':id', $this->id);
+            $stmt->BindParam(':account_status', $this->account_status);
+
+            if($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+
     //---> Login function
     public function login()
     {
-        $query = 'SELECT company_id, email, password FROM ' . $this->table . ' WHERE email = :email';
+        $query = 'SELECT id, email, password FROM ' . $this->table . ' WHERE email = :email';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -51,7 +95,7 @@ class Companies
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //Set properties
-            $this->company_id    = $row['company_id'];
+            $this->id    = $row['id'];
             $this->email       = $row['email'];
             $this->hashed_password = $row['password'];
 
@@ -88,8 +132,10 @@ class Companies
             //result
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row == 1) {
-                $this->email_err = "This email already exist";
+            if (sizeof($row) == 1) {
+                $this->exist = "Email already exist";
+                return 1;
+                die();
             }
         } else {
             //If execution fails
@@ -101,7 +147,8 @@ class Companies
             SET 
                 email = :email, 
                 password = :password, 
-                name = :name';
+                name = :name,
+                account_status = "enabled"';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);

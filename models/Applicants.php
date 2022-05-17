@@ -14,6 +14,7 @@ class Applicant
     public $resume;
     public $first_name;
     public $last_name;
+    public $exist;
 
     //Connect to DB
     public function __construct($db)
@@ -135,8 +136,9 @@ class Applicant
             //result
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row == 1) {
-                $this->email_err = "This email already exist";
+            if (sizeof($row) == 1) {
+                $this->exist = "This email already exist";
+                die();
             }
         } else {
             //If execution fails

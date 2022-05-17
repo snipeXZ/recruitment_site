@@ -91,7 +91,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     //If there are no errors.... Try signing user up
     if(empty($usernam_err) && empty($password_err) && empty($confirm_password)) {
         if($applicant->signup()) {
-            echo json_encode(array('message' => 'User created successfully'));
+            if(!$applicant->exist){
+                http_response_code(201);
+                echo json_encode(array('message' => 'User created successfully'));
+                die();
+            } else {
+                echo json_encode(array('message' => "$applicant->exist"));
+            }
         } else {
             echo json_encode(array('message' => 'User not created'));
         }
