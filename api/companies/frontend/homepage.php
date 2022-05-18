@@ -17,13 +17,10 @@
         </div>
         <div id="links">
             <div class="link">
-                <a href="">toggleAccountStatus</a>    
+                <a href="">toggleAccountStatus</a>
             </div>
             <div class="link">
-                <a href="">Upload CV</a>
-            </div>
-            <div class="link">
-                <a href="">Jobs Applied</a>
+                <a href="">Applied</a>
             </div>
             <div class="link">
                 <a href="">Logout</a>
@@ -32,40 +29,28 @@
     </header>
     <article>
         <tile>
-            <p class="company_name">Company Name</p>
             <p class="job_name">Job name</p>
+            <p class="requirements">requirements</p>
             <p class="discription">Discription</p>
-            <div class="combined">
-                <button class="btn">More Info</button>
-                <button class="btn">Apply</button>
-            </div>
+            <button class="btn">Check Applicants</button>
         </tile>
         <tile>
-            <p class="company_name">Company Name</p>
             <p class="job_name">Job name</p>
+            <p class="requirements">requirements</p>
             <p class="discription">Discription</p>
-            <div class="combined">
-                <button class="btn">More Info</button>
-                <button class="btn">Apply</button>
-            </div>
+            <button class="btn">Check Applicants</button>
         </tile>
         <tile>
-            <p class="company_name">Company Name</p>
             <p class="job_name">Job name</p>
+            <p class="requirements">requirements</p>
             <p class="discription">Discription</p>
-            <div class="combined">
-                <button class="btn">More Info</button>
-                <button class="btn">Apply</button>
-            </div>
+            <button class="btn">Check Applicants</button>
         </tile>
         <tile>
-            <p class="company_name">Company Name</p>
             <p class="job_name">Job name</p>
+            <p class="requirements">requirements</p>
             <p class="discription">Discription</p>
-            <div class="combined">
-                <button class="btn">More Info</button>
-                <button class="btn">Apply</button>
-            </div>
+            <button class="btn">Check Applicants</button>
         </tile>
     </article>
     

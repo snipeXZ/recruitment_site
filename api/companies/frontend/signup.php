@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="styles/login.css">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign in</title>
+  <title>Sign up</title>
 </head>
 
 <body>
@@ -26,10 +26,10 @@
           <div class="table">
             <div class="table-cell">
               <p>
-                Don't have an account?
+                Already have an account?
               </p>
               <button class="info-btn">
-                Sign up
+                Sign in
               </button>
             </div>
           </div>
@@ -39,8 +39,9 @@
         <div class="form-item log-in">
           <div class="table">
             <div class="table-cell">
+              <input name="name" placeholder="company name" type="text" />
               <input name="email" placeholder="email" type="text" />
-              <input name="Password" placeholder="Password" type="Password" />
+              <input name="Password" placeholder="email" type="text" />
               <button class="btn">
                 Log in
               </button>

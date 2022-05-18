@@ -1,0 +1,88 @@
+html {
+    height: 100%;
+}
+
+body {
+    font-size: 16px;
+    min-height: 100%;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #be9b7b;
+    height: 32px;
+}
+
+header div {
+    background-color: #be9b7b;
+    display:flex;
+}
+
+.link {
+    padding: 3px 0 0 10px;
+    margin: 3px;
+}
+
+header div a:hover{
+    background-color: #854442;
+    color: black;
+}
+
+header div a:active {
+    background-color: #81221f;
+    color: white;
+}
+
+article {
+    display: flex;
+    grid-area: content;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 10px;
+    grid-gap: 10px;
+}
+
+tile {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    background-color: #854442;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    margin-left: 25%;
+    width: 50%;
+}
+
+.btn, .info-btn {
+  display: block;
+  border: none;
+  text-align: center;
+  margin: 0 auto;
+  color: #fff;
+  background-color: #be9b7b;
+}
+
+.info-btn {
+  padding: 5px 10px
+}
+.btn:hover {
+  opacity: 0.7;
+}
+.btn, input {
+  padding: 10px 15px;
+}
+
+.combined .btn{
+    display : inline;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}

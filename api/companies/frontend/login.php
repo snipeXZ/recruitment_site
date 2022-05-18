@@ -40,7 +40,7 @@
           <div class="table">
             <div class="table-cell">
               <input name="email" placeholder="email" type="text" />
-              <input name="Password" placeholder="Password" type="Password" />
+              <input name="password" placeholder="password" type="password" />
               <button class="btn">
                 Log in
               </button>

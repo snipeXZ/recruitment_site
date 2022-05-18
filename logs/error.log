@@ -110,3 +110,5 @@
 [Tue May 17 09:15:43.010599 2022] [php:warn] [pid 1111] [client 127.0.0.1:40482] PHP Warning:  Undefined property: stdClass::$discription in /var/www/recruitment.com/api/companies/post_jobs.php on line 32
 [Tue May 17 09:15:53.796058 2022] [php:warn] [pid 1118] [client 127.0.0.1:40484] PHP Warning:  Undefined property: stdClass::$requirements in /var/www/recruitment.com/api/companies/post_jobs.php on line 40
 [Tue May 17 09:16:13.140600 2022] [php:warn] [pid 1123] [client 127.0.0.1:40488] PHP Warning:  Undefined property: stdClass::$company_id in /var/www/recruitment.com/api/companies/post_jobs.php on line 48
+[Wed May 18 21:39:44.843447 2022] [php:error] [pid 1105] [client 127.0.0.1:49970] script '/var/www/recruitment.com/api/applicants/frontend/logi.php' not found or unable to stat
+[Wed May 18 22:12:08.176679 2022] [php:error] [pid 6614] [client 127.0.0.1:50074] script '/var/www/recruitment.com/api/applicants/frontend/jobs_applied.php' not found or unable to stat
