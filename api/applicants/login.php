@@ -4,20 +4,13 @@ ini_set('display_errors', 1);
 error_reporting(-1);
 
 //Headers
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+// header('Access-Control-Allow-Origin: *');
+// header('Content-Type: application/json');
+// header('Access-Control-Allow-Methods: POST');
+// header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
 //Initialize the session
-//session_start();
-
-//Check is the user is already logged in, if yes then redirect to the home page
-// if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) 
-// {
-//     header('Location: http://www.recruitment.com/api/applicants/frontend/homepage.php');
-//     exit;
-// }
+session_start();
 
 include_once '../../config/Database.php';
 include_once '../../models/Applicants.php';
@@ -35,49 +28,46 @@ $applicant = new Applicant($db);
 
 //Processes data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-    //Get raw posted data (from post request)
-    $data = json_decode(file_get_contents("php://input"));
 
     //Check if email field is empty
-    if(empty(trim($data->email))) {
+    if(empty(trim($_POST['email']))) {
         $email_err = "Please enter an email";
-        echo json_encode(array('message' => "$email_err"));
+        header("location: frontend/login.php?error=$email_err");
         die();
     } else {
-        $applicant->email = trim($data->email);
+        $applicant->email = trim($_POST['email']);
     }
 
     //Check if password filed is empty
-    if(empty(trim($data->password))) {
+    if(empty(trim($_POST['password']))) {
         $password_err = "Please enter a password";
-        echo json_encode(array('message' => "$password_err"));
+        header("location: frontend/login.php?error=$password_err");
         die();
     }//Check password length
-    elseif (strlen(trim($data->password)) < 6) {
+    elseif (strlen(trim($_POST['password'])) < 6) {
         $password_err = "Password must have at least 6 charachers";
-        echo json_encode(array('message' => "$password_err"));
+        header("location: frontend/login.php?error=$password_err");
         die();
     }else {
-        $applicant->password = trim($data->password);
+        $applicant->password = trim($_POST['password']);
     }
 
     //If there are no errors... Try to login
     if(empty($email_err) && empty($password_err)) {
         if($applicant->login()) {
             //pasword is valid so start a session
-            //session_start();
 
             // Store data in session variables
-            $_SESSION['loggedin'] = true;
+            $_SESSION['LOGIN'] = 'true';
             $_SESSION['email'] = $applicant->email;
-            $_SESSION['id'] = $applicant->id;
+            $_SESSION['name'] = $applicant->first_name;
+            $_SESSION['applicant_id'] = $applicant->applicant_id;
+            $_SESSION['status'] = $applicant->account_status;
 
             // Redirect user to welcome page
-            // header('location: homepage');
-            http_response_code(200);
+            header('Location: frontend/homepage.php');
         }else {
-            http_response_code(401);
-            echo json_encode(array('message' => "Invalid username or password"));
+            header("location: frontend/login.php?error=Invalid username or password");
         }
     }
 }

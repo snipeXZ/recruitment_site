@@ -1,3 +1,16 @@
+<?php
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+//Initialize the session
+session_start();
+//Check if user is logged in, if not then redirect to login page
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("Location: http://www.recruitment.com/api/companies/frontend/login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,46 +26,45 @@
             <a href="">LOGO</a>
         </div>
         <div id="status">
-            Account Status : <span>status</span>
+            Account Status : <span><?php isset($_SESSION['status']); echo $_SESSION['status']; ?></span>
         </div>
         <div id="links">
             <div class="link">
-                <a href="">toggleAccountStatus</a>
+                <a href="http://www.recruitment.com/api/companies/toggleStatus.php?id=<?php echo $_SESSION['id']; ?>">toggleAccountStatus</a>
             </div>
             <div class="link">
-                <a href="">Applied</a>
+                <a href="./post_jobs.php">Post Job</a>
             </div>
             <div class="link">
-                <a href="">Logout</a>
+                <a href="http://www.recruitment.com/api/companies/logout.php">Logout</a>
             </div>
         </div>
     </header>
-    <article>
-        <tile>
-            <p class="job_name">Job name</p>
-            <p class="requirements">requirements</p>
-            <p class="discription">Discription</p>
-            <button class="btn">Check Applicants</button>
-        </tile>
-        <tile>
-            <p class="job_name">Job name</p>
-            <p class="requirements">requirements</p>
-            <p class="discription">Discription</p>
-            <button class="btn">Check Applicants</button>
-        </tile>
-        <tile>
-            <p class="job_name">Job name</p>
-            <p class="requirements">requirements</p>
-            <p class="discription">Discription</p>
-            <button class="btn">Check Applicants</button>
-        </tile>
-        <tile>
-            <p class="job_name">Job name</p>
-            <p class="requirements">requirements</p>
-            <p class="discription">Discription</p>
-            <button class="btn">Check Applicants</button>
-        </tile>
+    <article id="article">
     </article>
     
+    <script>
+        fetch("http://www.recruitment.com/api/companies/list_jobs.php?company_id=<?php echo $_SESSION['id']; ?>", {
+            method: 'GET',
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            const article = document.querySelector('#article');
+            data.data.forEach(element => {
+                const _data = `
+                    <tile>
+                        <p class="job_name">${element.job_name}</p>
+                        <p class="discription">${element.discription}</p>
+                        <p class="requirements">${element.requirements}</p>
+                        <button class="btn">Check Applicants</button>
+                    </tile>
+                `;
+                article.innerHTML += _data;
+            });
+
+        })
+    </script>
 </body>
 </html>

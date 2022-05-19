@@ -39,12 +39,13 @@
         <div class="form-item log-in">
           <div class="table">
             <div class="table-cell">
-              <input name="name" placeholder="company name" type="text" />
-              <input name="email" placeholder="email" type="text" />
-              <input name="Password" placeholder="email" type="text" />
-              <button class="btn">
-                Log in
-              </button>
+              <form action="http://recruitment.com/api/companies/signup.php" method="POST">
+                <input name="name" placeholder="company name" type="text" />
+                <input name="email" placeholder="email" type="email" />
+                <input name="password" placeholder="password" type="password" />
+                <input name="confirm_password" placeholder="confirm password" type="password" />
+                <input class="btn" type="submit" value="Login" href="#">
+              </form>
             </div>
           </div>
         </div>
@@ -64,6 +65,17 @@
       </div>
     </div>
   </div> 
+
+    <script>
+    const url = new URL(location.href);
+    if(url.searchParams.get('error')){
+      alert(url.searchParams.get('error'));
+    }
+    if(url.searchParams.get('success')){
+      alert(url.searchParams.get('success'));
+    }
+  </script>
+  
 </body>
 
 </html>

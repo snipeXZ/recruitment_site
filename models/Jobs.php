@@ -57,13 +57,13 @@ class Jobs
     {
         $query = '
             SELECT 
-                job_id, 
+                id, 
                 company_id, 
                 job_name, 
                 discription, 
                 requirements
             FROM ' . $this->table . ' 
-            WHERE status = open' ;
+            WHERE status = "opened"';
 
         //prepare query
         $stmt = $this->conn->prepare($query);

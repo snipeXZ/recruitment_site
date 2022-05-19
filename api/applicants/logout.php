@@ -1,25 +1,13 @@
 <?php
-
-include_once '../../config/Database.php';
-include_once '../../models/Applicants.php';
-
-//Headers
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
 
 //Initialize the session
 session_start();
 
-//Instantiate DB & connect
-$database = new Database();
-$db = $database->connect();
+unset($_SESSION["LOGIN"]);
 
-//Instantiate User post object
-$applicant = new Applicant($db);
+session_destroy();
 
-if($user->logout()) {
-    //Redirect to login page
-    header('Location: http://www.recruitment.com/api/applicants/frontend/login.php');
-    exit;
-}
+header('location: http://www.recruitment.com/api/applicants/frontend/login.php?success=Status changed please login again');

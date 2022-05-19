@@ -3,12 +3,6 @@ ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-//Headers
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
 include_once '../../config/Database.php';
 include_once '../../models/Companies.php';
 
@@ -27,68 +21,69 @@ $company = new Companies($db);
 
 //Processes data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data = json_decode(file_get_contents("php://input"));
 
     //Check if company name field is empty
-    if(empty(trim($data->name))) {
+    if(empty(trim($_POST['name']))) {
         $company_name_err = "Please enter your company name";
-        echo json_encode(array('message' => "$company_name_err"));
+        header("location: frontend/signup.php?error=$company_name_err");
         die();
     } else {
-        $company->name = trim($data->name);
+        $company->name = trim($_POST['name']);
     }
 
     //Check if email field is empty
-    if(empty(trim($data->email))) {
+    if(empty(trim($_POST['email']))) {
         $email_err = "Please enter your email";
-        echo json_encode(array('message' => "$email_err"));
+        header("location: frontend/signup.php?error=$email_err");
         die();
     } else {
-        $company->email = trim($data->email);
+        $company->email = trim($_POST['email']);
     }
 
     //Check if password field is empty
-    if(empty(trim($data->password))) {
+    if(empty(trim($_POST['password']))) {
         $password_err = "Please enter a password";
-        echo json_encode(array('message' => "$password_err"));
+        header("location: frontend/signup.php?error=$password_err");
         die();
     } // Check password length 
-    elseif (strlen(trim($data->password)) < 6)
+    elseif (strlen(trim($_POST['password'])) < 6)
     {
         $password_err = "Password must have at least 6 characters";
-        echo json_encode(array('message' => "$password_err"));
+        header("location: frontend/signup.php?error=$password_err");
         die();
     } else {
-        $company->password = trim($data->password);
+        $company->password = trim($_POST['password']);
     }
 
     //Check if confirm password field if empty
-    if(empty(trim($data->confirm_password))) {
+    if(empty(trim($_POST['confirm_password']))) {
         $con_password_err = "Please confirm the password";
-        echo json_encode(array('message' => "$con_password_err"));
+        header("location: frontend/signup.php?error=$con_password_err");
         die();
     }
     //Check password
-    elseif(empty($password_err) && (($data->password) != ($data->confirm_password))) {
+    elseif(empty($password_err) && (($_POST['password']) != ($_POST['confirm_password']))) {
         $con_password_err = "Password did not match";
-        echo json_encode(array('message' => "$con_password_err"));
+        header("location: frontend/signup.php?error=$con_password_err");
         die();
     } else {
-        $company->password = trim($data->password);
+        $company->password = trim($_POST['password']);
     }
 
     //If there are no errors .... Try signing company up
     if(empty($company_name_err) && empty($password_err) && empty($con_password_err)) {
         if($company->signup()){
-            if(!$company->exist){
-                http_response_code(201);
-                echo json_encode(array('message' => 'Company created successfully'));
+                session_start();
+                // Store data in session variables
+                $_SESSION['LOGIN'] = 'true';
+                $_SESSION['email'] = $applicant->email;
+                $_SESSION['applicant_id'] = $applicant->applicant_id;
+
+                header('location: frontend/login.php?success=created successfully');
                 die();
-            } else {
-                echo json_encode(array('message' => "$company->exist"));
-            }
+
         } else {
-            echo json_encode(array('message' => "Company not created"));
+            header('location: frontend/signup.php?error=not created');
         }
     }
 

@@ -13,11 +13,8 @@ $db = $database->connect();
 
 $jobs = new Jobs($db);
 
-//Get user data
-$jobs->company_id = $_GET['company_id'];
-
 //Jobs query
-$result = $jobs->list_company_jobs();
+$result = $jobs->list_all_jobs();
 //Get row count
 $num = $result->rowCount();
 

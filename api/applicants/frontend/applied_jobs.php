@@ -26,7 +26,7 @@
                 <a href="">Jobs Applied</a>
             </div>
             <div class="link">
-                <a href="">Logout</a>
+                <a href="http://www.recruitment.com/api/applicants/logout.php">Logout</a>
             </div>
         </div>
     </header>

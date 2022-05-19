@@ -39,30 +39,45 @@
         <div class="form-item log-in">
           <div class="table">
             <div class="table-cell">
-              <input name="email" placeholder="email" type="text" />
-              <input name="password" placeholder="password" type="password" />
-              <button class="btn">
-                Log in
-              </button>
+              <form action="http://recruitment.com/api/companies/login.php" METHOD="POST">
+                <input id="email" name="email" placeholder="email" type="text" />
+                <input id="password" name="password" placeholder="password" type="password" />
+                <input class="btn" type="submit" value="Login" href="#">
+              </form>
             </div>
           </div>
         </div>
         <div class="form-item sign-up">
           <div class="table">
             <div class="table-cell">
+              <form action="">
               <input name="email" placeholder="Email" type="text" />
               <input name="fullName" placeholder="Full Name" type="text" />
               <input name="Username" placeholder="Username" type="text" />
               <input name="Password" placeholder="Password" type="Password" />
-              <button class="btn">
-                Sign up
-              </button>
+              
             </div>
           </div>
         </div>
       </div>
     </div>
   </div> 
+
+  <script>
+    const url = new URL(location.href);
+    if(url.searchParams.get('error')){
+      alert(url.searchParams.get('error'))
+    }
+    if(url.searchParams.get('success')){
+      alert(url.searchParams.get('success'))
+    }
+  </script>  <script>
+    const url = new URL(location.href);
+    if(url.searchParams.get('error')){
+      alert(url.searchParams.get('error'))
+    }
+  </script>
 </body>
+
 
 </html>

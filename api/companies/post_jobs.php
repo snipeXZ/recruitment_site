@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(empty($job_name_err) && empty($discription_err) && empty($requirement_err)) {
         if($jobs->post_job()){
-            http_response_code(201);
+        echo json_encode(array('message' => "Created successfully"));
         } else {
             http_response_code(401);
         }

@@ -67,11 +67,7 @@ class Companies
             $stmt->BindParam(':id', $this->id);
             $stmt->BindParam(':account_status', $this->account_status);
 
-            if($stmt->execute()) {
-                return true;
-            } else {
-                return false;
-            }
+            $stmt->execute();
         }else {
             return false;
         }
@@ -80,7 +76,7 @@ class Companies
     //---> Login function
     public function login()
     {
-        $query = 'SELECT id, email, password FROM ' . $this->table . ' WHERE email = :email';
+        $query = 'SELECT id, email, password, account_status FROM ' . $this->table . ' WHERE email = :email';
 
         //prepare statement
         $stmt = $this->conn->prepare($query);
@@ -98,6 +94,7 @@ class Companies
             $this->id    = $row['id'];
             $this->email       = $row['email'];
             $this->hashed_password = $row['password'];
+            $this->account_status = $row['account_status'];
 
             //validate password
             if (password_verify($this->password, $this->hashed_password)) {
@@ -132,11 +129,11 @@ class Companies
             //result
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (sizeof($row) == 1) {
-                $this->exist = "Email already exist";
-                return 1;
-                die();
-            }
+            // if (sizeof($row) == 1) {
+            //     $this->exist = "Email already exist";
+            //     return 1;
+            //     die();
+            // }
         } else {
             //If execution fails
             echo "Something went wrong";
