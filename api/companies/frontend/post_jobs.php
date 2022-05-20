@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 error_reporting(-1);
 //Initialize the session
 session_start();
-var_dump($_SESSION);
 //Check if user is logged in, if not then redirect to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: http://www.recruitment.com/api/companies/frontend/login.php");

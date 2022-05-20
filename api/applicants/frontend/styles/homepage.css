@@ -23,6 +23,7 @@ header div {
 .link {
     padding: 3px 0 0 10px;
     margin: 3px;
+    background-color:#c54540;
 }
 
 header div a:hover{
